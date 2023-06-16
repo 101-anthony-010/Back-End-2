@@ -14,9 +14,10 @@ exports.validTransfer = catchAsync(async (req, res, next) => {
     })
     
     if (!userSender) {
-        return next(
-            new AppError(`Can't find ${req.originalUrl} on this server!`, 404)
-            )   
+        return res.status(400).json({
+            status: "error",
+            message: "SenderUser not found"
+            })
         }
 
     req.userSender = userSender
@@ -28,9 +29,10 @@ exports.validTransfer = catchAsync(async (req, res, next) => {
     })
     
     if (!userReceiver) {
-        return next(
-            new AppError(`Can't find ${req.originalUrl} on this server!`, 404)
-            )   
+        return res.status(400).json({
+            status: "error",
+            message: "ReceiverUser not found"
+            })  
         }
         
     req.userReceiver = userReceiver
