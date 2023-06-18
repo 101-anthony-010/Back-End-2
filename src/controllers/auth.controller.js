@@ -1,13 +1,16 @@
 const User = require('../models/user.model');
+const bcrypt = require('bcryptjs')
 
 exports.signup = async (req, res) => {
     try {
         const { name, password } = req.body;
         const accountNumber = Math.floor(Math.random() * 900000) + 100000;
+        const salt = await bcrypt.genSalt(16)
+        const encryptedPassword = await bcrypt.hash(password, salt)
 
         const user = await User.create({
             name,
-            password,
+            password: encryptedPassword,
             accountNumber,
             amount: 1000,
           });
